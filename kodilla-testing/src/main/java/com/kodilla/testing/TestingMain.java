@@ -1,36 +1,27 @@
 package com.kodilla.testing;
 
 import com.kodilla.testing.calculator.Calculator;
+import com.kodilla.testing.collection.OddNumbersExterminator;
 import com.kodilla.testing.user.SimpleUser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class TestingMain {
 
     public static void main(String[] args) {
-        //6.1 Pierwszy Test
-        SimpleUser simpleUser = new SimpleUser("theForumUser");
 
-        String result = simpleUser.getUsername();
+        List<Integer> listOne = new ArrayList<>();
 
-        if (result.equals("theForumUser")) {
-            System.out.println("test OK");
-        } else {
-            System.out.println("Error!");
+        Random rnd = new Random();
+
+        for(int i = 0; i < 10; i++){
+            listOne.add(rnd.nextInt(100));
         }
+        System.out.println(listOne);
 
-        //6.2 Drugi Test
+       System.out.println(OddNumbersExterminator.exterminate(listOne));
 
-        Calculator calculator = new Calculator();
-
-        if (calculator.add(5,10) == 15){
-            System.out.println("Test zakończony pomyślnie.");
-        } else {
-            System.out.println("Błąd!");
-        }
-
-        if (calculator.subtractBFromA(10,5) == 5){
-            System.out.println("Test zakończony pomyślnie.");
-        } else {
-            System.out.println("Błąd!");
-        }
     }
 }
