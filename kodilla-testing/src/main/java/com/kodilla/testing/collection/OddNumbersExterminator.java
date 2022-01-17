@@ -6,9 +6,6 @@ import java.util.List;
 
 public class OddNumbersExterminator {
 
-    List<Integer> evenNumberList = new ArrayList<>();
-
-
     public static List<Integer> exterminate(List<Integer> numbers){
         List<Integer> evenNumberList = new ArrayList<>();
         for(Integer e: numbers){
