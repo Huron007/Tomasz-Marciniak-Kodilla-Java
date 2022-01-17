@@ -28,16 +28,13 @@ class WeatherForecastTestSuite {
         temperaturesMap.put("Warszawa 05", 25.3);
         return temperaturesMap;
     }
+    @BeforeEach
+    void initializingMock(){
+        when(temperaturesMock.getTemperatures()).thenReturn(getTemperaturesMap());
+    }
     @Test
     void testCalculateForecastWithMock() {
         //Given
-        Map<String, Double> temperaturesMap = new HashMap<>();
-        temperaturesMap.put("Rzeszow", 25.5);
-        temperaturesMap.put("Krakow", 26.2);
-        temperaturesMap.put("Wroclaw", 24.8);
-        temperaturesMap.put("Warszawa", 25.2);
-        temperaturesMap.put("Gdansk", 26.1);
-        when(temperaturesMock.getTemperatures()).thenReturn(temperaturesMap);
         WeatherForecast weatherForecast = new WeatherForecast(temperaturesMock);
 
         //When
@@ -50,18 +47,16 @@ class WeatherForecastTestSuite {
     @Test
     void testAverageTemperatureWithMock(){
         //Given
-        when(temperaturesMock.getTemperatures()).thenReturn(getTemperaturesMap());
         WeatherForecast weatherForecast = new WeatherForecast(temperaturesMock);
-       //When
+        //When
        double averageTemperature = weatherForecast.averageTemperature();
-       //Then
+        //Then
         Assertions.assertEquals(25.02, averageTemperature);
     }
     @DisplayName("Metoda powinna zwrocic srodkowa temperature z 5 spreparowanych temperatur")
     @Test
     void testTemperatureMedian(){
         //Given
-        when(temperaturesMock.getTemperatures()).thenReturn(getTemperaturesMap());
         WeatherForecast weatherForecast = new WeatherForecast(temperaturesMock);
         //When
         double median = weatherForecast.temperatureMedian();
