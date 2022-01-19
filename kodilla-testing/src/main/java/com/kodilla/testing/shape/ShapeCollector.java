@@ -11,12 +11,20 @@ public class ShapeCollector {
         figureList.add(shape);
     }
 
-    public void removeFigure(Shape shape){
-        figureList.remove(shape);
+    public boolean removeFigure(Shape shape){
+        boolean result = false;
+        if (figureList.contains(shape)){
+            figureList.remove(shape);
+            result = true;
+        }
+        return result;
     }
 
     public Shape getFigure(int n){
-        return figureList.get(n);
+        if(n >= 0 && n < figureList.size()) {
+            return figureList.get(n);
+        }
+        return null;
     }
 
     public String showFigures(){

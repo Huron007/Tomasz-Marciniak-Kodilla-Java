@@ -51,7 +51,7 @@ class WeatherForecastTestSuite {
         //When
        double averageTemperature = weatherForecast.averageTemperature();
         //Then
-        Assertions.assertEquals(25.02, averageTemperature);
+        Assertions.assertEquals(25.02, averageTemperature, 0.1);
     }
     @DisplayName("Metoda powinna zwrocic srodkowa temperature z 5 spreparowanych temperatur")
     @Test
@@ -61,6 +61,6 @@ class WeatherForecastTestSuite {
         //When
         double median = weatherForecast.temperatureMedian();
         //Then
-        Assertions.assertEquals(25.1, median);
+        Assertions.assertEquals(25.1, median, 0.1);
     }
 }

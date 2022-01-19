@@ -36,9 +36,7 @@ public class ShapeCollectorTestSuite {
         // When
         collector.addFigure(circle);
         // Then
-        if(collector.getFigureList().contains(circle)){
-            System.out.println("Lista zawiera figure: "+circle.getShapeName());
-        }
+        Assertions.assertTrue(collector.getFigureList().contains(circle));
     }
 
     @DisplayName("Sprawdza czy figura zostala usunieta z kolekcji")
@@ -47,34 +45,25 @@ public class ShapeCollectorTestSuite {
         //Given
         ShapeCollector collector = new ShapeCollector();
         Circle circle = new Circle(5);
-        //When
         collector.addFigure(circle);
-        collector.removeFigure(circle);
-        boolean result = collector.getFigureList().contains(circle);
+        //When
+        boolean result = collector.removeFigure(circle);
         //Then
-        if(result == false){
-            System.out.println("Lista nie zawiera figury: "+circle.getShapeName());
-        }
+        Assertions.assertTrue(result);
+        Assertions.assertEquals(0, collector.getFigureList().size());
     }
 
-    @DisplayName("Sprawdza czy dana figura odpowiada podanemu indexowi w liscie i ja pobiera jesli to mozliwe")
+    @DisplayName("Sprawdza czy dana figura została pobrana z listy")
     @Test
     void testCaseGetFigure(){
         //Given
         ShapeCollector collector = new ShapeCollector();
         Circle circle = new Circle(5);
-        List<Shape> comparisonList = new ArrayList<>();
+        collector.addFigure(circle);
         //When
-        collector.getFigureList().add(0, circle);
-        boolean figureExist = collector.getFigureList().contains(circle);
-        comparisonList.add(0,collector.getFigure(0));
+        Shape retrievedCircle = collector.getFigure(0);
         //Then
-        if(figureExist){
-            System.out.println("Figura "+collector.getFigure(0).getShapeName()+" istnieje");
-        }
-        if(comparisonList.get(0).equals(collector.getFigure(0))){
-            System.out.println("Porowywane obiekty zgadzaja sie");
-        }
+        Assertions.assertEquals(circle, retrievedCircle);
     }
     @DisplayName("Sprawdzy czy metoda zwraca nazwy figur w postaci stringa")
     @Test
@@ -89,6 +78,6 @@ public class ShapeCollectorTestSuite {
         collector.getFigureList().add(square);
         collector.getFigureList().add(triangle);
         //Then
-        System.out.println(collector.showFigures());
+        Assertions.assertTrue(collector.showFigures() instanceof String);
     }
 }
