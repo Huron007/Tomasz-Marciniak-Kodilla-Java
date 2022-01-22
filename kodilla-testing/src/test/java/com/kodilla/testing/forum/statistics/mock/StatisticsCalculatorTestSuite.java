@@ -23,17 +23,9 @@ public class StatisticsCalculatorTestSuite {
 
     @BeforeEach
     void initializingMock(){
-        when(statisticsMock.postsCount()).thenReturn(getPostsCount(1));
-        when(statisticsMock.commentsCount()).thenReturn(getCommentsCount(1));
+        when(statisticsMock.postsCount()).thenReturn(1);
+        when(statisticsMock.commentsCount()).thenReturn(1);
         when(statisticsMock.usersNames()).thenReturn(getUserNames(1));
-    }
-
-    public static int getCommentsCount(int n) {
-        return n;
-    }
-
-    public static int getPostsCount(int n) {
-        return n;
     }
 
     public static List<String> getUserNames(int n) {
@@ -47,7 +39,7 @@ public class StatisticsCalculatorTestSuite {
     @Test
     void postCountZeroTestSuite(){
         //Given
-        when(statisticsMock.postsCount()).thenReturn(getPostsCount(0));
+        when(statisticsMock.postsCount()).thenReturn(0);
         StatisticsCalculator statisticsCalculator = new StatisticsCalculator(statisticsMock);
         statisticsCalculator.calculateAdvStatistics(statisticsMock);
         //When
@@ -62,7 +54,7 @@ public class StatisticsCalculatorTestSuite {
     @Test
     void postCountThousandTestSuite(){
         //Given
-        when(statisticsMock.postsCount()).thenReturn(getPostsCount(1000));
+        when(statisticsMock.postsCount()).thenReturn(1000);
         StatisticsCalculator statisticsCalculator = new StatisticsCalculator(statisticsMock);
         statisticsCalculator.calculateAdvStatistics(statisticsMock);
         //When
@@ -77,7 +69,7 @@ public class StatisticsCalculatorTestSuite {
     @Test
     void commentCountZeroTestSuite(){
         //Given
-        when(statisticsMock.commentsCount()).thenReturn(getCommentsCount(0));
+        when(statisticsMock.commentsCount()).thenReturn(0);
         StatisticsCalculator statisticsCalculator = new StatisticsCalculator(statisticsMock);
         statisticsCalculator.calculateAdvStatistics(statisticsMock);
         //When
@@ -92,8 +84,8 @@ public class StatisticsCalculatorTestSuite {
     @Test
     void commentCountLowerThanPostCountTestSuite(){
         //Given
-        when(statisticsMock.postsCount()).thenReturn(getPostsCount(10));
-        when(statisticsMock.commentsCount()).thenReturn(getCommentsCount(5));
+        when(statisticsMock.postsCount()).thenReturn(10);
+        when(statisticsMock.commentsCount()).thenReturn(5);
         StatisticsCalculator statisticsCalculator = new StatisticsCalculator(statisticsMock);
         statisticsCalculator.calculateAdvStatistics(statisticsMock);
         //When
@@ -108,8 +100,8 @@ public class StatisticsCalculatorTestSuite {
     @Test
     void commentCountBiggerThanPostCountTestSuite(){
         //Given
-        when(statisticsMock.postsCount()).thenReturn(getPostsCount(5));
-        when(statisticsMock.commentsCount()).thenReturn(getCommentsCount(10));
+        when(statisticsMock.postsCount()).thenReturn(5);
+        when(statisticsMock.commentsCount()).thenReturn(10);
         StatisticsCalculator statisticsCalculator = new StatisticsCalculator(statisticsMock);
         statisticsCalculator.calculateAdvStatistics(statisticsMock);
         //When
