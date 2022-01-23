@@ -8,7 +8,11 @@ public final class Forum {
 
     private final List<ForumUser> forumUserList = new ArrayList<>();
 
-    public Forum(){
+    public Forum() {
+
+    }
+
+    public void createUserList(){
         for(int i = 0; i < 11; i++) {
             char a = 'M';
             if(i % 2 == 0){

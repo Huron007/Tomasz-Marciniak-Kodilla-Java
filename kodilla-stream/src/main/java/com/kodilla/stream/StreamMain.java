@@ -33,10 +33,12 @@ public class StreamMain {
 
 
         Forum forum = new Forum();
+        forum.createUserList();
+        int twentyYearsInDays = 7300;
 
         Map<String, ForumUser> par = forum.getForumUserList().stream()
                 .filter(forumUser -> forumUser.getGender() == 'M')
-                .filter(forumUser -> LocalDate.now().toEpochDay() - forumUser.getBirthDate().toEpochDay() > 7300)
+                .filter(forumUser -> LocalDate.now().toEpochDay() - forumUser.getBirthDate().toEpochDay() > twentyYearsInDays)
                 .filter(forumUser -> forumUser.getPosts() > 1)
                 .collect(Collectors.toMap(ForumUser::getId, forumUser -> forumUser));
 
