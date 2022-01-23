@@ -1,11 +1,22 @@
 package com.kodilla.stream;
 
 import com.kodilla.stream.beautifier.PoemBeautifier;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 public class StreamMain {
 
     public static void main(String[] args) {
 
+       /*   ZADANIE 7.1
         PoemBeautifier poemBeautifier = new PoemBeautifier();
 
         poemBeautifier.beautify("sample text", (string) -> "ABC "+string+" ABC");
@@ -18,7 +29,19 @@ public class StreamMain {
                 result += ch[i];
             }
             return result;
-        });
+        });  */
 
+
+        Forum forum = new Forum();
+
+        Map<String, ForumUser> par = forum.getForumUserList().stream()
+                .filter(forumUser -> forumUser.getGender() == 'M')
+                .filter(forumUser -> LocalDate.now().toEpochDay() - forumUser.getBirthDate().toEpochDay() > 7300)
+                .filter(forumUser -> forumUser.getPosts() > 1)
+                .collect(Collectors.toMap(ForumUser::getId, forumUser -> forumUser));
+
+        par.entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue())
+                .forEach(System.out::println);
     }
 }
