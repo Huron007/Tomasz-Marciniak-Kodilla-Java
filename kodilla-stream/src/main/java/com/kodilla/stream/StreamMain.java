@@ -7,9 +7,12 @@ import com.kodilla.stream.forumuser.Forum;
 import com.kodilla.stream.forumuser.ForumUser;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.kodilla.stream.forumuser.Forum.TWENTY_YEARS_IN_DAYS;
 
 
 public class StreamMain {
@@ -31,14 +34,13 @@ public class StreamMain {
             return result;
         });  */
 
-
-        Forum forum = new Forum();
+        List<ForumUser> forumUserList = new ArrayList<>();
+        Forum forum = new Forum(forumUserList);
         forum.createUserList();
-        int twentyYearsInDays = 7300;
 
         Map<String, ForumUser> par = forum.getForumUserList().stream()
                 .filter(forumUser -> forumUser.getGender() == 'M')
-                .filter(forumUser -> LocalDate.now().toEpochDay() - forumUser.getBirthDate().toEpochDay() > twentyYearsInDays)
+                .filter(forumUser -> LocalDate.now().toEpochDay() - forumUser.getBirthDate().toEpochDay() > TWENTY_YEARS_IN_DAYS)
                 .filter(forumUser -> forumUser.getPosts() > 1)
                 .collect(Collectors.toMap(ForumUser::getId, forumUser -> forumUser));
 

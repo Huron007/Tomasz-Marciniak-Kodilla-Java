@@ -6,10 +6,11 @@ import java.util.List;
 
 public final class Forum {
 
+    public static final int TWENTY_YEARS_IN_DAYS = 7300;
     private final List<ForumUser> forumUserList = new ArrayList<>();
 
-    public Forum() {
-
+    public Forum(List<ForumUser> forumUserList) {
+        forumUserList = this.forumUserList;
     }
 
     public void createUserList(){
