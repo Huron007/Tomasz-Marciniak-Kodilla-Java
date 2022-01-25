@@ -7,10 +7,10 @@ import java.util.List;
 public final class Forum {
 
     public static final int TWENTY_YEARS_IN_DAYS = 7300;
-    private final List<ForumUser> forumUserList = new ArrayList<>();
+    private List<ForumUser> forumUserList = new ArrayList<>();
 
     public Forum(List<ForumUser> forumUserList) {
-        forumUserList = this.forumUserList;
+        this.forumUserList = forumUserList;
     }
 
     public void createUserList(){
