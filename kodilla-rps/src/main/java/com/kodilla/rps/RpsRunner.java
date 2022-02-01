@@ -58,19 +58,18 @@ public class RpsRunner {
             gameController.endResults(score);
             score.resetScore();
             gameController.playAgain();
-            Scanner scanner1 = new Scanner(System.in);
-            playAgain = scanner1.nextLine();
+            playAgain = scanner.nextLine();
             boolean validAnswer = false;
             do{
-                if((playAgain.matches("Y")) & (playAgain.matches("y")) & (playAgain.matches("N")) & (playAgain.matches("n"))){
+                if(!"Y".equals(playAgain.toUpperCase()) && !"N".equals(playAgain.toUpperCase())){
                     System.out.println("This is not a valid answer, please enter either Y for new game or N for exit:");
-                    playAgain = scanner1.nextLine();
+                    playAgain = scanner.nextLine();
                 } else {
                     validAnswer = true;
                 }
             }
             while(!validAnswer);
         }
-        while((playAgain.equals("Y")) | (playAgain.equals("y")));
+        while("Y".equals(playAgain.toUpperCase()));
     }
 }
