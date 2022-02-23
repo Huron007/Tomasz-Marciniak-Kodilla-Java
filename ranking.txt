@@ -1,0 +1,3 @@
+Player 'X' wins: 0
+Player 'O' wins: 1
+Machine wins: 0
