@@ -1,0 +1,3 @@
+Player 'X': 2
+Player 'O': 6
+Machine: 1

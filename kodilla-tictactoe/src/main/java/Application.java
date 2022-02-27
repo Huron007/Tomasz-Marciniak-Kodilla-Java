@@ -2,12 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+
 import java.util.Random;
+import java.util.Scanner;
 
 public class Application implements ActionListener {
 
@@ -20,13 +18,17 @@ public class Application implements ActionListener {
     private final JPanel gameTextPanel = new JPanel();
     private final JPanel gameButtonsPanel = new JPanel();
     private final JPanel gameOptionsPanel = new JPanel();
+    private final JPanel rankingPanel = new JPanel();
     private final JLabel mainMenuTextField = new JLabel();
     private final JLabel newGameTextField = new JLabel();
     private final JLabel gameTextField = new JLabel();
+    private final JLabel[] rankingTextField = new JLabel[3];
     private final JButton[] mainMenuButtons = new JButton[4];
     private final JButton[][] gameButtons = new JButton[rows][cols];
     private final JButton[] newGameButtons = new JButton[3];
     private final JButton[] gameOptionsButtons = new JButton[2];
+    private final JButton rankingReturnButton = new JButton();
+    private final JFileChooser fileChooser = new JFileChooser();
     private GAMESTATE state = GAMESTATE.PVE;
     private int counter;
     private int rollRow;
@@ -38,6 +40,9 @@ public class Application implements ActionListener {
     private int playerOneWins = 0;
     private int playerTwoWins = 0;
     private int machineWins = 0;
+    private String tempPlayerX;
+    private String tempPlayerO;
+    private String tempMachine;
 
     private boolean isPlayerOneTurn;
     private boolean gameOver = false;
@@ -48,7 +53,8 @@ public class Application implements ActionListener {
     }
 
 
-    public Application() {
+    public Application() throws IOException {
+
         //Main Menu Panel Setup
         mainMenuPanel.setLayout(null);
         mainMenuPanel.setBounds(0,0,800,800);
@@ -75,6 +81,7 @@ public class Application implements ActionListener {
         mainMenuButtons[2].setBounds(285,450,200,50);
         mainMenuButtons[3].setText("Quit");
         mainMenuButtons[3].setBounds(285,525,200,50);
+        fileChooser.setCurrentDirectory(new File("."));
 
         //New Game Panel Setup
         newGamePanel.setLayout(null);
@@ -100,6 +107,29 @@ public class Application implements ActionListener {
         newGameButtons[1].setBounds(285,375,200,50);
         newGameButtons[2].setText("Return");
         newGameButtons[2].setBounds(285,450,200,50);
+
+        //Ranking Setup
+        rankingPanel.setLayout(null);
+        rankingPanel.setBounds(0,0,800,800);
+        rankingPanel.setBackground(new Color(24, 99, 203, 189));
+        rankingPanel.setVisible(false);
+        for (int i = 0; i < 3; i++) {
+            rankingTextField[i] = new JLabel();
+            rankingPanel.add(rankingTextField[i]);
+            rankingTextField[i].setFont(new Font("MS Gothic", Font.BOLD, 36));
+        }
+        rankingTextField[0].setBounds(250,125,800,200);
+        rankingTextField[1].setBounds(250,200,800,200);
+        rankingTextField[2].setBounds(250,275,800,200);
+        rankingReturnButton.setForeground(new Color(1, 2, 1, 184));
+        rankingReturnButton.setBorder(BorderFactory.createEtchedBorder());
+        rankingReturnButton.setFont(new Font("MS Gothic", Font.BOLD, 18));
+        rankingReturnButton.setFocusable(false);
+        rankingReturnButton.addActionListener(this);
+        rankingReturnButton.setText("Return");
+        rankingReturnButton.setBounds(285,650,200,50);
+        rankingPanel.add(rankingReturnButton);
+        loadRanking();
 
         //Game Setup
         gameTextField.setBackground(new Color(25, 2, 2, 255));
@@ -153,6 +183,7 @@ public class Application implements ActionListener {
         frame.setResizable(false);
         frame.add(mainMenuPanel);
         frame.add(newGamePanel);
+        frame.add(rankingPanel);
         frame.add(gameTextPanel, BorderLayout.NORTH);
         frame.add(gameButtonsPanel, BorderLayout.CENTER);
         frame.add(gameOptionsPanel, BorderLayout.SOUTH);
@@ -170,9 +201,21 @@ public class Application implements ActionListener {
         }
         //Load Game
         if (e.getSource() == mainMenuButtons[1]) {
+
+            fileChooser.showOpenDialog(null);
         }
         //Rankings
         if (e.getSource() == mainMenuButtons[2]) {
+            mainMenuPanel.setVisible(false);
+            rankingPanel.setVisible(true);
+        }
+        //Return from ranking screen to main menu
+        if (e.getSource() == rankingReturnButton) {
+            mainMenuPanel.setVisible(true);
+            gameButtonsPanel.setVisible(false);
+            gameTextPanel.setVisible(false);
+            gameOptionsPanel.setVisible(false);
+            rankingPanel.setVisible(false);
         }
         //Quit
         if (e.getSource() == mainMenuButtons[3]) {
@@ -218,6 +261,8 @@ public class Application implements ActionListener {
         }
         //Save Game
         if (e.getSource() == gameOptionsButtons[0]) {
+
+            fileChooser.showSaveDialog(null);
 
         }
         //Return to Main Menu from game screen
@@ -356,7 +401,7 @@ public class Application implements ActionListener {
         }
     }
 
-    public void whoWins(int rowA, int colA, int rowB, int colB, int rowC, int colC, String winner){
+    public void whoWins(int rowA, int colA, int rowB, int colB, int rowC, int colC, String winner) {
         gameButtons[rowA][colA].setBackground(Color.GREEN);
         gameButtons[rowB][colB].setBackground(Color.GREEN);
         gameButtons[rowC][colC].setBackground(Color.GREEN);
@@ -379,16 +424,40 @@ public class Application implements ActionListener {
             machineWins++;
         }
         saveRanking();
+        try {
+            loadRanking();
+        } catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        }
+
     }
 
     public void saveRanking(){
-        Path path = Paths.get("ranking.txt");
-        try(BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write("Player 'X' wins: "+ playerOneWins + "\nPlayer 'O' wins: "+playerTwoWins + "\nMachine wins: "+machineWins);
+
+        try {
+            FileWriter rankingWriter = new FileWriter("C:/Users/Tomek/IdeaProjects/kodilla-course/kodilla-tictactoe/src/main/resources/ranking.txt");
+            String rankingContent = "Player 'X': "+ playerOneWins + "\nPlayer 'O': "+playerTwoWins + "\nMachine: "+machineWins;
+            rankingWriter.write(rankingContent);
+            rankingWriter.close();
         } catch (IOException e){
             System.out.println("Wystapil blad");
             e.printStackTrace();
         }
+    }
+
+    public void loadRanking() throws FileNotFoundException {
+        File ranking = new File("C:/Users/Tomek/IdeaProjects/kodilla-course/kodilla-tictactoe/src/main/resources/ranking.txt");
+        Scanner scan = new Scanner(ranking);
+        tempPlayerX = scan.nextLine();
+        playerOneWins = Integer.parseInt(tempPlayerX.replaceAll("[^0-9]", ""));
+        tempPlayerO = scan.nextLine();
+        playerTwoWins = Integer.parseInt(tempPlayerO.replaceAll("[^0-9]", ""));
+        tempMachine = scan.nextLine();
+        machineWins = Integer.parseInt(tempMachine.replaceAll("[^0-9]", ""));
+        rankingTextField[0].setText(tempPlayerX);
+        rankingTextField[1].setText(tempPlayerO);
+        rankingTextField[2].setText(tempMachine);
+        scan.close();
     }
 
     public void draw(){
