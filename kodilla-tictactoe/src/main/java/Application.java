@@ -197,12 +197,43 @@ public class Application implements ActionListener {
             mainMenuPanel.setVisible(false);
             newGamePanel.setVisible(true);
             gameTextField.setText("Tic-Tac-Toe");
+            gameOptionsButtons[0].setEnabled(true);
             gameOver = false;
         }
         //Load Game
         if (e.getSource() == mainMenuButtons[1]) {
 
-            fileChooser.showOpenDialog(null);
+            int returnValue = fileChooser.showOpenDialog(null);
+
+            if(returnValue == JFileChooser.APPROVE_OPTION){
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    loadGame(selectedFile);
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                mainMenuPanel.setVisible(false);
+                gameButtonsPanel.setVisible(true);
+                gameTextPanel.setVisible(true);
+                gameOptionsPanel.setVisible(true);
+                for (int i = 0; i < rows; i++) {
+                    for (int k = 0; k < cols; k++) {
+                        gameButtons[i][k].setEnabled(true);
+                        gameButtons[i][k].setBackground(Color.lightGray);
+                        if (gameButtons[i][k].getText().equals(xSymbol)){
+                            gameButtons[i][k].setForeground(new Color(255, 0, 0));
+                        } else if (gameButtons[i][k].getText().equals(oSymbol)){
+                            gameButtons[i][k].setForeground(new Color(0, 0, 255));
+                        }
+                    }
+                }
+                if(isPlayerOneTurn){
+                    gameTextField.setText("X turn");
+                } else {
+                    gameTextField.setText("O turn");
+                }
+                gameOptionsButtons[0].setEnabled(true);
+            }
         }
         //Rankings
         if (e.getSource() == mainMenuButtons[2]) {
@@ -262,7 +293,12 @@ public class Application implements ActionListener {
         //Save Game
         if (e.getSource() == gameOptionsButtons[0]) {
 
-            fileChooser.showSaveDialog(null);
+            int returnValue = fileChooser.showSaveDialog(null);
+
+            if(returnValue == JFileChooser.APPROVE_OPTION){
+                File selectedFile = fileChooser.getSelectedFile();
+                saveGame(selectedFile);
+            }
 
         }
         //Return to Main Menu from game screen
@@ -414,6 +450,7 @@ public class Application implements ActionListener {
         gameTextField.setText(winner + " wins");
         gameOver = true;
         draw = false;
+        gameOptionsButtons[0].setEnabled(false);
         if(winner.equals("X")){
             playerOneWins++;
         }
@@ -457,6 +494,42 @@ public class Application implements ActionListener {
         rankingTextField[0].setText(tempPlayerX);
         rankingTextField[1].setText(tempPlayerO);
         rankingTextField[2].setText(tempMachine);
+        scan.close();
+    }
+
+    public void saveGame(File file){
+        try {
+            FileWriter gameSaver = new FileWriter(file.getAbsolutePath());
+            String gameSave = gameButtons[0][0].getText() + "\n" + gameButtons[0][1].getText() + "\n" + gameButtons[0][2].getText() + "\n" +
+                              gameButtons[1][0].getText() + "\n" + gameButtons[1][1].getText() + "\n" + gameButtons[1][2].getText() + "\n" +
+                              gameButtons[2][0].getText() + "\n" + gameButtons[2][1].getText() + "\n" + gameButtons[2][2].getText() + "\n" +
+                              isPlayerOneTurn + "\n" + counter + "\n" + state;
+            gameSaver.write(gameSave);
+            gameSaver.close();
+        } catch (IOException e){
+            System.out.println("Wystapil blad");
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGame(File file) throws FileNotFoundException {
+        Scanner scan = new Scanner(file);
+        gameButtons[0][0].setText(scan.nextLine());
+        gameButtons[0][1].setText(scan.nextLine());
+        gameButtons[0][2].setText(scan.nextLine());
+        gameButtons[1][0].setText(scan.nextLine());
+        gameButtons[1][1].setText(scan.nextLine());
+        gameButtons[1][2].setText(scan.nextLine());
+        gameButtons[2][0].setText(scan.nextLine());
+        gameButtons[2][1].setText(scan.nextLine());
+        gameButtons[2][2].setText(scan.nextLine());
+        isPlayerOneTurn = Boolean.parseBoolean(scan.nextLine());
+        counter = Integer.parseInt(scan.nextLine());
+        if(scan.nextLine().equals("PVP")){
+            state = GAMESTATE.PVP;
+        } else if (scan.nextLine().equals("PVE")){
+            state = GAMESTATE.PVE;
+        }
         scan.close();
     }
 
