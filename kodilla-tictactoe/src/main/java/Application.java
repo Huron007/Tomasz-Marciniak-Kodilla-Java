@@ -212,6 +212,7 @@ public class Application implements ActionListener {
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
+                gameOver = false;
                 mainMenuPanel.setVisible(false);
                 gameButtonsPanel.setVisible(true);
                 gameTextPanel.setVisible(true);
@@ -239,6 +240,11 @@ public class Application implements ActionListener {
         if (e.getSource() == mainMenuButtons[2]) {
             mainMenuPanel.setVisible(false);
             rankingPanel.setVisible(true);
+            try {
+                loadRanking();
+            } catch (FileNotFoundException ex){
+                ex.printStackTrace();
+            }
         }
         //Return from ranking screen to main menu
         if (e.getSource() == rankingReturnButton) {
@@ -362,7 +368,9 @@ public class Application implements ActionListener {
                                 if (counter == maxNumberOfTurns && draw) {
                                     draw();
                                 }
-                                machineMove();
+                                if(!gameOver){
+                                    machineMove();
+                                }
                             }
                         }
                     }
@@ -461,12 +469,6 @@ public class Application implements ActionListener {
             machineWins++;
         }
         saveRanking();
-        try {
-            loadRanking();
-        } catch (FileNotFoundException ex){
-            ex.printStackTrace();
-        }
-
     }
 
     public void saveRanking(){
@@ -525,10 +527,14 @@ public class Application implements ActionListener {
         gameButtons[2][2].setText(scan.nextLine());
         isPlayerOneTurn = Boolean.parseBoolean(scan.nextLine());
         counter = Integer.parseInt(scan.nextLine());
-        if(scan.nextLine().equals("PVP")){
-            state = GAMESTATE.PVP;
-        } else if (scan.nextLine().equals("PVE")){
-            state = GAMESTATE.PVE;
+        String gameMode = scan.nextLine();
+        switch (gameMode){
+            case "PVP":
+                state = GAMESTATE.PVP;
+                break;
+            case "PVE":
+                state = GAMESTATE.PVE;
+                break;
         }
         scan.close();
     }
@@ -540,6 +546,7 @@ public class Application implements ActionListener {
                 gameButtons[i][k].setBackground(Color.GRAY);
             }
         }
+        gameOver = true;
         gameTextField.setText("Draw");
     }
 }
