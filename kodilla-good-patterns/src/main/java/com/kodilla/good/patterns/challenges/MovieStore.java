@@ -11,15 +11,15 @@ public class MovieStore {
 
     public Map<String, List<String>> getMovies() {
         List<String> ironManTranslations = new ArrayList<>();
-        ironManTranslations.add("Øelazny Cz≥owiek");
+        ironManTranslations.add("≈ªelazny Cz≈Çowiek");
         ironManTranslations.add("Iron Man");
 
         List<String> avengersTranslations = new ArrayList<>();
-        avengersTranslations.add("Múciciele");
+        avengersTranslations.add("M≈õciciele");
         avengersTranslations.add("Avengers");
 
         List<String> flashTranslations = new ArrayList<>();
-        flashTranslations.add("B≥yskawica");
+        flashTranslations.add("B≈Çyskawica");
         flashTranslations.add("Flash");
 
         Map<String, List<String>> booksTitlesWithTranslations = new HashMap<>();

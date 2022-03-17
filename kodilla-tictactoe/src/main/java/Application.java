@@ -350,7 +350,6 @@ public class Application implements ActionListener {
                     }
                 }
             }
-
         }
         if(state == GAMESTATE.PVE){
             for (int i = 0; i < rows; i++) {
@@ -459,20 +458,19 @@ public class Application implements ActionListener {
         gameOver = true;
         draw = false;
         gameOptionsButtons[0].setEnabled(false);
-        if(winner.equals("X")){
+        if(winner.equals(xSymbol)){
             playerOneWins++;
         }
-        if(state == GAMESTATE.PVP && winner.equals("O")){
+        if(state == GAMESTATE.PVP && winner.equals(oSymbol)){
             playerTwoWins++;
         }
-        if(state == GAMESTATE.PVE && winner.equals("O")){
+        if(state == GAMESTATE.PVE && winner.equals(oSymbol)){
             machineWins++;
         }
         saveRanking();
     }
 
     public void saveRanking(){
-
         try {
             FileWriter rankingWriter = new FileWriter("C:/Users/Tomek/IdeaProjects/kodilla-course/kodilla-tictactoe/src/main/resources/ranking.txt");
             String rankingContent = "Player 'X': "+ playerOneWins + "\nPlayer 'O': "+playerTwoWins + "\nMachine: "+machineWins;
