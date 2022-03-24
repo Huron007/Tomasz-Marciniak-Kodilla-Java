@@ -5,7 +5,7 @@ public class ExtraFoodShop implements Producer{
     private String name = "ExtraFoodShop";
 
     public boolean process(Order order){
-        System.out.println("Thank you for your purchase in " + order.getProducer());
+        System.out.println("Thank you for your purchase in " + order.getProducer().getName() + ".");
         return true;
     }
 

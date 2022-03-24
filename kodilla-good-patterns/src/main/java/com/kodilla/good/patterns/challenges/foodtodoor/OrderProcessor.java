@@ -4,6 +4,10 @@ public class OrderProcessor {
 
     private OrderInformer orderInformer;
 
+    public OrderProcessor(OrderInformer orderInformer){
+        this.orderInformer = orderInformer;
+    }
+
     public void completeOrder(Order order){
         boolean isOrderCompleted = order.getProducer().process(order);
         if(isOrderCompleted){
