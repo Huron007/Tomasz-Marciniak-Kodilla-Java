@@ -21,5 +21,23 @@ public class BigMacTestSuite {
         int howManyIngredients = bigMac.getIngredients().size();
         //Then
         Assertions.assertEquals(3, howManyIngredients);
+        Assertions.assertNotEquals(0, bigMac.getBurgers());
+        Assertions.assertNotEquals("", bigMac.getBun());
+        Assertions.assertNotEquals("", bigMac.getSauce());
+    }
+
+    @Test
+    public void testBigMacNewWithoutIngredients(){
+        //Given
+        BigMac bigMac = new BigMac.BigMacBuilder()
+                .bun("normal")
+                .sauce("BBQ")
+                .burgers(2)
+                .build();
+        System.out.println(bigMac);
+        //When
+        int howManyIngredients = bigMac.getIngredients().size();
+        //Then
+        Assertions.assertEquals(0, howManyIngredients);
     }
 }
