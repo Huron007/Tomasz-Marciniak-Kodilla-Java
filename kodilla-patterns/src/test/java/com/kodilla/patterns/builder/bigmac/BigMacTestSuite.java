@@ -21,9 +21,9 @@ public class BigMacTestSuite {
         int howManyIngredients = bigMac.getIngredients().size();
         //Then
         Assertions.assertEquals(3, howManyIngredients);
-        Assertions.assertNotEquals(0, bigMac.getBurgers());
-        Assertions.assertNotEquals("", bigMac.getBun());
-        Assertions.assertNotEquals("", bigMac.getSauce());
+        Assertions.assertEquals(2, bigMac.getBurgers());
+        Assertions.assertEquals("normal", bigMac.getBun());
+        Assertions.assertEquals("BBQ", bigMac.getSauce());
     }
 
     @Test
