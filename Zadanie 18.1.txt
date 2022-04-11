@@ -1,20 +1,20 @@
 {
 "model":"example model",
 "brand":"example brand",
-"seats":[
-  "seat":{
+"seat":[
+  {
     "material":"example material 1",
     "color":"example color 1"
   },
-  "seat":{
+  {
     "material":"example material 2",
     "color":"example color 2"
   },
-  "seat":{
+  {
     "material":"example material 3",
     "color":"example color 3"
   },
-  "seat":{
+  {
     "material":"example material 4",
     "color":"example color 4"
   }
