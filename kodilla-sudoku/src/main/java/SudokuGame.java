@@ -23,7 +23,9 @@ public class SudokuGame {
         try{
             System.in.read();
         }
-        catch (Exception e){}
+        catch (Exception e){
+            e.printStackTrace();
+        }
         setup();
         insertNumber();
     }
