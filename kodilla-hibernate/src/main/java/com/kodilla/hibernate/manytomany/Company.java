@@ -11,7 +11,10 @@ import java.util.List;
                 " WHERE COMPANY_NAME LIKE 'Dat%'",
         resultClass = Company.class
 )
-
+@NamedQuery(
+        name = "Company.findCompaniesWithNameThatContains",
+        query = "FROM Company WHERE name LIKE :COMPANYNAME"
+)
 @Entity
 @Table(name = "COMPANIES")
 public class Company {

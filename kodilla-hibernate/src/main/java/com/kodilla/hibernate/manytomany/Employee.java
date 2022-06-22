@@ -8,6 +8,10 @@ import java.util.List;
         name = "Employee.findEmployeeWithExactName",
         query = "FROM Employee WHERE lastname = :LASTNAME"
 )
+@NamedQuery(
+        name = "Employee.findEmployeeWithNameThatContains",
+        query = "FROM Employee WHERE lastname LIKE :LASTNAME"
+)
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employee {

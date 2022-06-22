@@ -2,6 +2,7 @@ package com.kodilla.hibernate.manytomany.dao;
 
 import com.kodilla.hibernate.manytomany.Company;
 import com.kodilla.hibernate.manytomany.Employee;
+import com.kodilla.hibernate.manytomany.facade.CompanyFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,8 @@ class CompanyDaoTestSuite {
     private CompanyDao companyDao;
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private CompanyFacade companyFacade;
 
     @Test
     void testSaveManyToMany() {
@@ -62,15 +65,38 @@ class CompanyDaoTestSuite {
         assertEquals(1, employeeWithExactLastName.size());
 
         //CleanUp
-        try {
-            companyDao.deleteById(softwareMachineId);
-            companyDao.deleteById(dataMaestersId);
-            companyDao.deleteById(greyMatterId);
-            employeeDao.deleteById(johnSmithId);
-            employeeDao.deleteById(stephanieClarcksonId);
-            employeeDao.deleteById(lindaKovalskyId);
-        } catch (Exception e){
+        companyDao.deleteById(softwareMachineId);
+        companyDao.deleteById(dataMaestersId);
+        companyDao.deleteById(greyMatterId);
+        employeeDao.deleteById(johnSmithId);
+        employeeDao.deleteById(stephanieClarcksonId);
+        employeeDao.deleteById(lindaKovalskyId);
+    }
 
-        }
+    @Test
+    void companyFacadeTest(){
+        //Given
+        Employee john = new Employee("John", "Smith");
+        Employee paul = new Employee("Paul", "Morrison");
+        Company company1 = new Company("Good Company");
+        Company company2 = new Company("Bad Company");
+
+        //When
+        int companyOneId = companyFacade.getCompanyDao().save(company1).getId();
+        int companyTwoId = companyFacade.getCompanyDao().save(company2).getId();
+        int johnId = companyFacade.getEmployeeDao().save(john).getId();
+        int paulId = companyFacade.getEmployeeDao().save(paul).getId();
+        List<Employee> employeeList = companyFacade.findEmployeeWithNameThatContains("Smith");
+        List<Company> companyList = companyFacade.findCompaniesWithNameThatContains("Company");
+
+        //Then
+        assertEquals(1, employeeList.size());
+        assertEquals(2, companyList.size());
+
+        //Cleanup
+        companyFacade.getCompanyDao().deleteById(companyOneId);
+        companyFacade.getCompanyDao().deleteById(companyTwoId);
+        companyFacade.getEmployeeDao().deleteById(johnId);
+        companyFacade.getEmployeeDao().deleteById(paulId);
     }
 }
