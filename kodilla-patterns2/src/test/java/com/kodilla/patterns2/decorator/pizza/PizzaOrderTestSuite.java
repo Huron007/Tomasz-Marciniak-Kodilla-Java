@@ -74,7 +74,7 @@ public class PizzaOrderTestSuite {
         BigDecimal cost = order.getCost();
         String desc = order.getDescription();
         //Then
-        assertEquals(new BigDecimal(45.0), cost);
+        assertEquals(new BigDecimal("45.0"), cost);
         assertEquals("XXL size Pizza with tomato sauce and cheese + EXTRA cheese with additional salami + additional BBQ sauce", desc);
     }
 }
