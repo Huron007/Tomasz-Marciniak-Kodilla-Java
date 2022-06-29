@@ -16,11 +16,11 @@ public class FacadeWatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(com.kodilla.patterns2.aop.calculator.Watcher.class);
 
-//    @Before("execution(* com.kodilla.patterns2.facade.api.OrderFacade.processOrder(..)))" +
-//            "&& args(theOrder) && args(userId) && target(object)")
-//    public void logEvent(OrderDto theOrder, Long userId, Object object) {
-//        LOGGER.info("Class: " + object.getClass().getName() + ", Args: " + theOrder + userId);
-//    }
+    @Before("execution(* com.kodilla.patterns2.facade.api.OrderFacade.processOrder(..))" +
+            "&& args(theOrder) && args(userId) && target(object)")
+    public void logEvent(OrderDto theOrder, Long userId, Object object) {
+        LOGGER.info("Class: " + object.getClass().getName() + ", Args: " + theOrder + userId);
+    }
 
     @Around("execution(* com.kodilla.patterns2.facade.api.OrderFacade.processOrder(..))")
     public Object measureTime(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
