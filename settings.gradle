@@ -14,3 +14,5 @@ include 'kodilla-jdbc'
 include 'kodilla-hibernate'
 include 'kodilla-sudoku'
 include 'kodilla-patterns2'
+include 'kodilla-testing2'
+
